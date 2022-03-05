@@ -3,7 +3,6 @@ CP 372 Assignment 2
 common.py
 
 @author Nausher Rao (190906250)
-@author X (X)
 """
 A = 12345;
 B = 67890;
@@ -67,7 +66,7 @@ class EventList:
 
         index = 0;
         soonest = self.event_list[index].time;
-        for i in range(0,len(self.event_list)):
+        for i in range(0, len(self.event_list)):
             if self.event_list[i].time < soonest:
                 soonest = self.event_list[i].time;
                 index = i;
@@ -92,6 +91,7 @@ class EventList:
 
     def getLastPacketTime(self, entityTo):
         time = 0.0;
+        
         for i in range(0, len(self.event_list)):
             if self.event_list[i].event_type == EventType.FROMNETWORK:
                 if self.event_list[i].entity == entityTo:

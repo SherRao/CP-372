@@ -3,9 +3,8 @@ CP 372 Assignment 2
 receiver.py
 
 @author Nausher Rao (190906250)
-@author X (X)
 """
-from common import *
+from common import *;
 
 class receiver:
     def __init__(self, entityName, ns):
@@ -19,7 +18,7 @@ class receiver:
         Initialize expected sequence number.
         '''
         self.expectedSequenceNumber = 0;
-        self.ack_duplicate = None;
+        self.ackDuplicate = None;
         return;
 
     def isCorrupted(self, packet):
@@ -35,7 +34,7 @@ class receiver:
         '''
         return packet.sequenceNumber != self.expectedSequenceNumber;
     
-    def getNextExpectedsequenceNumber(self):
+    def getNextExpectedSequenceNumber(self):
         '''
         The expected sequence numbers are 0 or 1.
         '''
@@ -56,10 +55,10 @@ class receiver:
         if(not self.isCorrupted(packet) and not self.isDuplicate(packet)):
             self.networkSimulator.deliverData(self.entity, packet.payload);
             self.networkSimulator.udtSend(self.entity, packet);
-            self.ack_duplicate = packet;
-            self.expectedSequenceNumber = self.getNextExpectedsequenceNumber();
+            self.ackDuplicate = packet;
+            self.expectedSequenceNumber = self.getNextExpectedSequenceNumber();
 
-        elif(self.ack_duplicate is not None):
-            self.networkSimulator.udtSend(self.entity, self.ack_duplicate);
+        elif(self.ackDuplicate is not None):
+            self.networkSimulator.udtSend(self.entity, self.ackDuplicate);
 
         return;

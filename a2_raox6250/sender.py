@@ -3,7 +3,6 @@ CP 372 Assignment 2
 sender.py
 
 @author Nausher Rao (190906250)
-@author X (X)
 """
 from common import *;
 
@@ -41,7 +40,7 @@ class sender:
         '''
         return packet.sequenceNumber != self.sequenceNumber;
  
-    def getNextsequenceNumber(self):
+    def getNextSequenceNumber(self):
         '''
         Generate the next sequence number to be used.
         '''
@@ -89,7 +88,7 @@ class sender:
         '''
         if(not self.isCorrupted(packet) and not self.isDuplicate(packet)):
             self.networkSimulator.stopTimer(self.entity);
-            self.sequenceNumber = self.getNextsequenceNumber();
+            self.sequenceNumber = self.getNextSequenceNumber();
             self.packetInTransit = None;
 
         return;
