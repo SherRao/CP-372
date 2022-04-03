@@ -12,31 +12,30 @@ class Node:
         """
         Initializes the node.
         """
-
         self.myID = ID
         self.ns = networksimulator
-        num = self.ns.NUM_NODES
 
-        isNotInf = costs[i] != self.ns.INFINITY
+        num = self.ns.NUM_NODES
+        def isNotInf(i): return costs[i] != self.ns.INFINITY
+
         self.distanceTable = [[0 for _ in range(num)] for _ in range(num)]
-        self.routes = [i if isNotInf else self.ns.INFINITY for i in range(num)]
-        self.connections = [i for i in range(num) if isNotInf]
+        self.routes = [i if isNotInf(i) else self.ns.INFINITY for i in range(num)]
+        self.connections = [i for i in range(num) if isNotInf(i)]
 
         for i in range(num):
-            for i in range(num):
+            for j in range(num):
                 result = self.ns.INFINITY
-                if(i == i):
+                if(i == j):
                     result = 0
 
                 elif(i == self.myID):
-                    result = costs[i]
+                    result = costs[j]
 
-                self.distanceTable[i][i] = result
+                self.distanceTable[i][j] = result
 
         for i in self.connections:
             if(i != ID):
-                pkt = RTPacket(ID, i, costs)
-                self.ns.tolayer2(pkt)
+                self.ns.tolayer2(RTPacket(ID, i, costs))
 
         return
 
@@ -46,14 +45,13 @@ class Node:
         """
 
         self.distanceTable[packet.sourceid] = packet.mincosts
-        costs = self.bellman_ford_algorithm(self.myID)
+        costs = self.bellmanFord(self.myID)
 
-        if(not equalArray(self.distanceTable[self.myID], costs)):
+        if(not isArrayEqual(self.distanceTable[self.myID], costs)):
             self.distanceTable[self.myID] = costs
             for i in self.connections:
-                if i != self.myID:
-                    packet = RTPacket(self.myID, i, costs)
-                    self.ns.tolayer2(packet)
+                if(i != self.myID):
+                    self.ns.tolayer2(RTPacket(self.myID, i, costs))
 
         return
 
@@ -89,7 +87,7 @@ class Node:
 
         result = []
         for i in range(self.ns.NUM_NODES):
-            if id == i:
+            if(id == i):
                 result.append(0)
 
             else:
@@ -107,9 +105,9 @@ class Node:
         return result
 
 
-def equalArray(arr1, arr2):
+def isArrayEqual(a, b):
     """
     Checks to see if the two given arrays are equal.
     """
 
-    return all(x == y for (x, y) in zip(arr1, arr2))
+    return all(x == y for (x, y) in zip(a, b))

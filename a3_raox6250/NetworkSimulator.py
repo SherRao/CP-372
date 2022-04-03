@@ -9,6 +9,7 @@ from common import *
 from Node import *
 import copy
 
+
 class NetworkSimulator:
     def __init__(self):
         print("Initializing Network Simulator")
